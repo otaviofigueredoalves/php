@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "8000:80" # Mapeia a porta 80 do seu host para a porta 80 do contêiner Nginx
+    volumes:
+      - ./src:/var/www/html:ro  # Mapeia sua pasta 'src' para o diretório web do Nginx (somente leitura)
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro # Mapeia seu arquivo de configuração Nginx
+    depends_on:
+      - php # Garante que o PHP inicie antes do Nginx
+
+  php:
+    build:
+      context: . # Usa o Dockerfile no diretório atual
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/var/www/html:rw # Mapeia sua pasta 'src' para o diretório de trabalho do PHP (leitura e escrita)
+    # environment: # Se precisar de variáveis de ambiente para o PHP
+    #   XDEBUG_MODE: develop,debug
+
+  mysql:
+    image: mysql:8.0 # Ou mariadb:latest, se preferir MariaDB
+    environment:
+      MYSQL_ROOT_PASSWORD: phpzeiro # MUDE ESTA SENHA!
+      MYSQL_DATABASE: db_aulas # Nome do seu banco de dados
+      MYSQL_USER: phpzeiro
+      MYSQL_PASSWORD: secret # Senha para o usuário comum
+    ports:
+      - "3306:3306" # Opcional: Para acessar o banco de dados de fora do contêiner (ex: DBeaver, MySQL Workbench)
+    volumes:
+      - db_data:/var/lib/mysql # Volume persistente para os dados do banco de dados
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest # Imagem oficial do phpMyAdmin
+    links:
+      - mysql:db # Cria um link para o serviço MySQL, acessível como 'db'
+    environment:
+      PMA_HOST: mysql # O hostname do seu serviço MySQL (igual ao nome do serviço no docker-compose)
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: phpzeiro # Use a mesma senha ROOT do seu serviço MySQL
+    ports:
+      - "8080:80" # Mapeia a porta 80 do phpMyAdmin para a porta 8080 do seu host (para evitar conflito com Nginx)
+    depends_on:
+      - mysql # Garante que o MySQL inicie antes do phpMyAdmin
+volumes:
+  db_data: # Define o volume persistente
