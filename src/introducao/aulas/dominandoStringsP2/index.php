@@ -2,7 +2,7 @@
 
 // DOMINANDO STRINGS P2
 
-$texto = 'Pera, uva, maçã e salada mista';
+$texto = 'Peru, uva, maçã e salada mista';
 // strlen() - Conta o número de caracteres de uma string
 $numeroCaracteres = strlen($texto);
 echo "Numero de caracteres: $numeroCaracteres<br>";

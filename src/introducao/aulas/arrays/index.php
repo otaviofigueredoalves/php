@@ -47,7 +47,8 @@ echo "<pre>";
 var_dump($informacoes);
 echo "</pre>";
 
-
+echo $informacoes["Otavio"]["carros"];
+echo "<br>";
 // MANIPULAR ARRAYS
 echo '### MANIPULAR ARRAYS';
 

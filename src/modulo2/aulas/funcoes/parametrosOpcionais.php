@@ -40,6 +40,6 @@ function portaoDeBalada($anoNascimento, $acompanhante = false){
     }
 }
 echo "<br>";
-$anoAtual = 2012;
+$anoAtual = 2000;
 echo "$anoAtual sem acompanhante: ".portaoDeBalada($anoAtual)."<br>";
 echo "$anoAtual com acompanhante: ".portaoDeBalada($anoAtual,true);
