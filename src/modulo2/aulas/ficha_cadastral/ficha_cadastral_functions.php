@@ -58,7 +58,7 @@ require 'include/functions.php'
             <p>Idade: <strong><?=$idade?></strong></p>
             <p>Sexo: <strong><?=$sexo?></strong></p>
             <p>Salário Mensal: <strong>R$ <?=$salario_mensal?></strong></p>
-            <p>Salário Anual: <strong><?=$salario_anual?></strong></p>
+            <p>Salário Anual: <strong><?=$salario_anual_formatado?></strong></p>
             <p>Status de Emprego: <strong><?= $esta_empregado ?></strong></p>
             <p>Anos para Aposentadoria: <strong><?= $total_aposentar ?></strong></p>
             <p>Habilidades: <strong><?= $habilidades ?></strong></p>

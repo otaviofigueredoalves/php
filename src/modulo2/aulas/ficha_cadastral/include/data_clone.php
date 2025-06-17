@@ -4,11 +4,11 @@ require 'include/consts.php';
 
 
 // VARIAVEIS
-$nome = "Otavio Figueredo";
+$nome = "Otavio Figueredo Alves";
 $habilidades = ["PHP", "Javascript", "HTML", "CSS"];
 $sexo = 'M';
-$idade = 18;
-$salario_mensal = 2700.53;
+$idade = 19;
+$salario_mensal = 2210.30;
 $esta_empregado = true;
 
 if ($esta_empregado != true) {
