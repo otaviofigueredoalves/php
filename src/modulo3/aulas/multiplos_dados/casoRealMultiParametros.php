@@ -13,3 +13,6 @@ echo "Você veio pela campanha $numero_campanha";
 
 // validando dados
 // isSet()
+
+
+// O problema daqui é que não validamos os dados, ou seja, o backend pode aceitar valores indesejados, como false, null, undefined. Para resolver isso, precisamos tratar os dados
