@@ -1,0 +1,84 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --background: rgb(20, 57, 126);
+    --input-color: rgba(20, 57, 126, 0.2);
+    --primary-color: rgb(255, 255, 255);
+    --text-color: #000;
+    --text-btn: #fff;
+    font-size: 16px;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text-color);
+    height: 100dvh;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+}
+.black {
+    background-color: #000;
+}
+.light{
+    background-color:  red;
+}
+
+.container-box {
+    background-color: var(--primary-color);
+    padding: 20px 10px;
+    width: 650px;
+    border-radius: 10px;
+    max-width: 350px;
+    /* background-color: red; */
+}
+.content{
+    /* background-color: blue; */
+}
+.title {
+    text-align: center;
+}
+
+input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 5px 10px;
+}
+.input{
+    background-color: var(--input-color);
+    border-radius: 5px;
+}
+
+.btn {
+    background-color: var(--background);
+    color: var(--text-btn);
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.form-item {
+    margin-top: 10px;
+    /* background-color: green; */
+}
+.select {
+    margin-bottom:5px;
+    margin-top: 5px;
+}
+select {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--background);
+    color: var(--text-btn);
+}
