@@ -9,7 +9,7 @@ include './login.php';
     <link rel="stylesheet" href="public/css/index.css">
     <title>Login</title>
 </head>
-<body class="<?=$cookieTheme?>">
+<body>
     <section class="container-box">
         <div class="container-content">
             <form action="" method="POST" class="content">
@@ -18,7 +18,7 @@ include './login.php';
                 </div>
                 <div class="form-item">
                     <label for="login">Usuario: </label>
-                    <div class="input"><input type="text" name="login"></div>
+                    <div class="input"><input type="text" name="login" value='<?=$login ?? ''?>'></div>
                 </div>
 
                 <div class="form-item">
