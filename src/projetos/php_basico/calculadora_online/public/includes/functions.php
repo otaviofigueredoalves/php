@@ -8,8 +8,7 @@
  * ou false se a string de entrada não for um número válido após a formatação.
  */
 function formatarNumeroBrasileiro(string $numeroString){
-    $str_sem_ponto = str_replace('.','', $numeroString);
-    $str_padrao_internacional = str_replace(',','.', $str_sem_ponto);
+    $str_padrao_internacional = str_replace(',','.', $numeroString);
 
     if(is_numeric($str_padrao_internacional)){
         return (float)$str_padrao_internacional;
