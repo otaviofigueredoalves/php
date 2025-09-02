@@ -29,9 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if(empty($operador_selecionado)){
         $erro = 'Selecione algum operador';
     } else if (!is_numeric($num1) || !is_numeric($num2)) {
-        $erro = 'Os valores devem ser numéricos';
-    } else if (trim($num1) == '' && trim($num2) == '') {
-        $erro = 'Preencha os campos com os valores desejados';
+        $erro = 'Os valores devem ser números';
     } else if (!in_array($operador_selecionado, $operadores)) {
         $erro = "Operador inválido!";
     } else {
@@ -80,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label for="num2">Segundo número</label><br>
             <input type="text" name="num2" id="num2" value="<?= $num2 ?>">
         </div>
-        <div>
+        <div class="operadores-container">
             <?php foreach ($operadores as $operador => $simbolo): ?>
                 <input type="radio" name="operator" id="op_<?=$operador?>" value="<?= $simbolo ?>"
                     <?php
@@ -99,7 +97,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
     </form>
-    <div>
+    <div class="<?php
+        if($erro){
+            echo 'display';
+        }
+    ?>">
         <?php if ($erro) : ?>
             <p style="color: red;"><?= $erro ?></p>
         <?php endif ?>
