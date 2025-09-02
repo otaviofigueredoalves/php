@@ -1,48 +1,78 @@
 version: '3.8'
 
+# Este arquivo define um ambiente de desenvolvimento completo com Nginx, PHP, MySQL e phpMyAdmin.
+# Lembre-se de criar uma pasta 'src' e colocar seus arquivos PHP dentro dela.
+#
+# Para iniciar: docker compose up --build -d
+# Para parar:   docker compose down
+
 services:
+  # --- Nginx (Servidor Web) ---
   nginx:
     image: nginx:stable-alpine
+    container_name: php_app_nginx
     ports:
-      - "8000:80" # Mapeia a porta 80 do seu host para a porta 80 do contêiner Nginx
+      # Acesse seu site em http://localhost:8000
+      - "8000:80"
     volumes:
-      - ./src:/var/www/html:ro  # Mapeia sua pasta 'src' para o diretório web do Nginx (somente leitura)
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro # Mapeia seu arquivo de configuração Nginx
+      # Mapeia a pasta 'src' do seu projeto para o container (somente leitura para o Nginx)
+      - ./src:/var/www/html:ro
+      # Mapeia o arquivo de configuração do Nginx
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
-      - php # Garante que o PHP inicie antes do Nginx
+      - php
 
+  # --- PHP-FPM ---
   php:
     build:
-      context: . # Usa o Dockerfile no diretório atual
+      context: . # Constrói a partir do Dockerfile na pasta atual
       dockerfile: Dockerfile
+      # Adicionamos estes 'args' para passar o ID do seu usuário local para o Dockerfile.
+      # Isso resolve problemas de 'Permission Denied' ao criar/escrever arquivos com o PHP.
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    container_name: php_app_php
     volumes:
-      - ./src:/var/www/html:rw # Mapeia sua pasta 'src' para o diretório de trabalho do PHP (leitura e escrita)
-    # environment: # Se precisar de variáveis de ambiente para o PHP
+      # Mapeia a pasta 'src' para que o PHP possa ler e escrever arquivos nela
+      - ./src:/var/www/html:rw
+    # environment:
     #   XDEBUG_MODE: develop,debug
 
+  # --- MySQL (Banco de Dados) ---
   mysql:
-    image: mysql:8.0 # Ou mariadb:latest, se preferir MariaDB
+    image: mysql:8.0
+    container_name: php_app_mysql
     environment:
-      MYSQL_ROOT_PASSWORD: phpzeiro # MUDE ESTA SENHA!
-      MYSQL_DATABASE: db_aulas # Nome do seu banco de dados
+      MYSQL_ROOT_PASSWORD: phpzeiro # MUDE ESTA SENHA EM AMBIENTES REAIS!
+      MYSQL_DATABASE: db_aulas
       MYSQL_USER: phpzeiro
-      MYSQL_PASSWORD: secret # Senha para o usuário comum
+      MYSQL_PASSWORD: secret
     ports:
-      - "3306:3306" # Opcional: Para acessar o banco de dados de fora do contêiner (ex: DBeaver, MySQL Workbench)
+      # Permite a conexão com o banco de dados a partir da sua máquina local (ex: DBeaver)
+      - "3306:3306"
     volumes:
-      - db_data:/var/lib/mysql # Volume persistente para os dados do banco de dados
+      # Garante que os dados do banco de dados persistam mesmo que o container seja removido
+      - db_data:/var/lib/mysql
 
+  # --- phpMyAdmin (Gerenciador de Banco de Dados) ---
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:latest # Imagem oficial do phpMyAdmin
+    image: phpmyadmin:latest
+    container_name: php_app_pma
     links:
       - mysql:db # Cria um link para o serviço MySQL, acessível como 'db'
     environment:
-      PMA_HOST: mysql # O hostname do seu serviço MySQL (igual ao nome do serviço no docker-compose)
+      PMA_HOST: mysql # Usa o nome do serviço 'mysql' para se conectar
       PMA_PORT: 3306
-      MYSQL_ROOT_PASSWORD: phpzeiro # Use a mesma senha ROOT do seu serviço MySQL
+      MYSQL_ROOT_PASSWORD: phpzeiro # Use a mesma senha root definida no serviço mysql
     ports:
-      - "8080:80" # Mapeia a porta 80 do phpMyAdmin para a porta 8080 do seu host (para evitar conflito com Nginx)
+      # Acesse o phpMyAdmin em http://localhost:8080
+      - "8080:80"
     depends_on:
-      - mysql # Garante que o MySQL inicie antes do phpMyAdmin
+      - mysql
+
+# --- Volumes ---
+# Define o volume nomeado 'db_data' para persistir os dados do MySQL
 volumes:
-  db_data: # Define o volume persistente
+  db_data:
+
