@@ -40,7 +40,7 @@ class Mamifero extends Animal{
 
     public function __construct($qtdMamas, $nome, $especie)
     {
-        parent::__construct($nome, $especie);
+        parent::__construct($nome, $especie); // Para não violar o ENCAPSULAMENTO, nós utilizamos este método para delegar a responsabilidade de inicializar a propriedade ao pai
         $this->qtdMamas = $qtdMamas;
     }
 
