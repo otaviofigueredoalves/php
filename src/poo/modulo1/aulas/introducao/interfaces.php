@@ -1,5 +1,5 @@
 <?php
-
+include 'interfaces_ex_functions.php';
 /**
  * Uma Interface é um CONTRATO que pode ser assinado por VÁRIAS CLASSES. Ou seja, ele quebra a limitação do abstract que só pode impor regras aos filhos do pai. A interface é 100% abstrata, não dando nada de herança, ou seja, não há filhos pra herdar, apenas classes que assinam contratos pois querem fazer tal coisa.
  * 
@@ -24,9 +24,14 @@
  * E eu uso as classes abstratas quando quero que classes da mesma família reutilizem CÓDIGO PRONTO (métodos concretos) E/OU sigam um CONTRATO interno (métodos abstratos)."
  */
 
+
+### RECAPITULAÇÃO:
+// Recapitulando. Injeção de dependência resolve o problema de separação de responsabilidade, onde uma classe era responsável não só por usar a instância de outra classe, mas também criar esta instância, agora a instância é criada fora do código pelo método que a classe instanciada chama/construtor. Já na inversão de depedencias, além de ter a separação de responsabilidade aumentamos também o nível de abstração, removendo a limitação de uma instância a uma Classe concreta, ou seja, se eu tiver um método criar da classe Pedra, eu só poderia jogar Pedra e o que o método/construtor receberia como parâmetro seria APENAS o tipo Pedra. A inversão de dependência permite com que o tipo recebido pelo método construtor da classe seja uma Interface/Abstração, podendo instanciar qualquer classe que tenha assinado o contrato. Assim, garantindo maior flexibilidade, o método construtor ou um método setter comum se preocupa apenas em inicializar a instância que possui o contrato, em vez de instanciar apenas a classe que possui um determinado método
+
 interface MetodoPagamento 
 {
     public function pagar(float $valor): bool;
+    public function getName();
 }
 
 class Paypal implements MetodoPagamento
@@ -36,17 +41,26 @@ class Paypal implements MetodoPagamento
         echo 'Pagamento via paypal no valor de R$ '. $valor;
         return true;
     }
+    public function getName()
+    {
+        return get_class($this);
+    }
 }
 
 class CreditCard implements MetodoPagamento
 {
     public function pagar(float $valor): bool
     {
-        echo 'Pagamento via cartão de crédito no valor de R$ '. $valor;
+        echo '<br>Pagamento via cartão de crédito no valor de R$ '. $valor;
         return false;
+    }
+
+    public function getName()
+    {
+        return get_class($this);
     }
 }
 
-$pagamento = new Paypal();
-$pagamento->pagar(100);
+processarPagamento(new CreditCard, 100);
+
 
