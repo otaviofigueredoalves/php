@@ -11,16 +11,16 @@ require_once 'connection.php';
  * CRIANDO USUARIOS TABELA
  */
 
-// $sql_table_create = 'CREATE TABLE usuarios (
-// id_usuario INT AUTO_INCREMENT PRIMARY KEY, 
-// name VARCHAR(100), 
-// username VARCHAR(20), 
-// password VARCHAR(255)
-// )';
+$sql_table_create = 'CREATE TABLE usuarios (
+id_usuario INT AUTO_INCREMENT PRIMARY KEY, 
+name VARCHAR(100), 
+username VARCHAR(20), 
+password VARCHAR(255)
+)';
 
-// // STATEMENT, QUERY PREPARADA PRO PDO CONSEGUIR INSERIR DADOS NELA
-// $stmt = $pdo->prepare($sql_table_create);
-// // var_dump($stmt);
+// STATEMENT, QUERY PREPARADA PRO PDO CONSEGUIR INSERIR DADOS NELA
+$stmt = $pdo->prepare($sql_table_create);
+// var_dump($stmt);
 // $stmt->execute();
 
 
@@ -37,9 +37,9 @@ $query_insert = 'INSERT INTO usuarios (
 );';
 
 // simulando variaveis privadas (dentro da classe)
-$_name = 'Hbigfake';
-$_username = 'hbigfake';
-$_password = 'senha';
+$_name = 'Wesley';
+$_username = '@wesley';
+$_password = '13590';
 
 // preparando query, de string pra objeto statement
 try {
@@ -48,9 +48,20 @@ try {
     $stmt->bindParam(':name', $_name);
     $stmt->bindParam(':username', $_username);
     $stmt->bindParam(':password', $_password);
+    
+    if($stmt->execute()){
+        if($stmt->rowCount() > 0){
+            echo 'Usuário inserido com sucesso';
+        } else {
+            echo 'Nenhum dado foi inserido no banco';
+        }
+    } else {
+        throw new \Exception("Erro ao conectar com o banco de dados");
+    }
 } catch (PDOException $e){
     echo "Erro: ". $e->getMessage();
 }
 
 
-var_dump($stmt->execute());
+// var_dump($stmt->execute());
+
