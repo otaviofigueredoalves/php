@@ -1,0 +1,16 @@
+RewriteEngine On
+
+# Define a base do redirecionamento a partir da pasta onde este arquivo está
+RewriteBase /mvc/
+
+# Se o usuário tentar acessar o arquivo index.php diretamente, não faz nada
+RewriteCond %{REQUEST_URI} ^/public/index\.php$ [NC]
+RewriteRule ^ - [L]
+
+# Se não for um arquivo real E nem uma pasta real
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Manda para o ARQUIVO index.php dentro de public/
+# Usar o caminho completo ajuda o PHP a não tentar "abrir a pasta"
+RewriteRule ^(.*)$ public/index.php?url=$1 [QSA,L]
