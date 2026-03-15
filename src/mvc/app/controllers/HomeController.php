@@ -1,33 +1,19 @@
 <?php
-
-class HomeController
+require_once __DIR__ . '/../core/Controller.php';
+class HomeController extends Controller
 {
     public function index()
     {
-        require_once __DIR__ . '/../views/home/index.php';
-    }
-    public function falarNome($nome)
+        $this->view('home/index', 
+        [
+          'nome' => 'Otávio',
+          'idade' => 19
+        ]
+        ); // agora só passar a rota pro controller montar/renderizar a view
+    } 
+
+    public function contact()
     {
-        echo "SEU NOME: $nome ";
+        $this->view('home/contact');
     }
 }
-
-/**
- * Por que o require_once direto no Controller é ruim? 
- * 
- * Caminhos repetitivos: Você vai escrever __DIR__ . '/../views/' em todos os métodos. Se mudar a pasta, boa sorte alterando 50 arquivos.
- * 
- * Escopo de variáveis: Se você usar extract(), as variáveis ficam limpas e disponíveis apenas naquela View.
- * 
- * Testabilidade: Fica impossível testar o Controller isoladamente se ele estiver dando require e echo o tempo todo.
- */
-/*
-
-O Paradigma em resumo:
-
-    Model: Busca o dado (ex: Select * from users).
-
-    Controller: Recebe o dado do Model e diz: "View, tome esse array aqui e se vire para mostrar pro usuário".
-
-    View: É apenas um arquivo com HTML e uns pequenos <?php echo $variavel; ?> nos lugares certos.
-/*

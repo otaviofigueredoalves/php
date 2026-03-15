@@ -1,10 +1,10 @@
 <?php
-
-class NoticiasController
+require_once __DIR__ . '/../core/Controller.php';
+class NoticiasController extends Controller
 {
     public function index()
     {
-        require_once __DIR__ . '/../views/noticias/index.php';
+        $this->view('noticias/index');
     }
     public function falarNome($nome)
     {
