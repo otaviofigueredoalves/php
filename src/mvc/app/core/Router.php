@@ -15,7 +15,7 @@ class Router
         if(file_exists($controllerPath)){ // se o caminho/controller existirem, prossiga. Se não, erro.
             require_once $controllerPath; // chama o arquivo do controller
 
-            if(class_exists($controllerName)){ // se existir uma classe com o nome do controler, prossiga
+            // if(class_exists($controllerName)){ // se existir uma classe com o nome do controler, prossiga
                 $controller = new $controllerName(); // instancie o novo controller
 
                 $method = $parts[1] ?? 'index'; // se tiver mais um caminho pós o /, guarde o método. Se não, o padrão é index
@@ -26,13 +26,21 @@ class Router
                     call_user_func_array([$controller,$method],$params); // execute o método com parâmetros
                     // $controller->$method(); // execute o método
                 } else {
-                    echo "ERRO: O método '$method' não existe no controller $controllerName "; // método não existe
+                    $this->notFound();; // método não existe
                 }
-            }
+            // }
         } else {
-            echo 'Controller não encontrado!';
+           $this->notFound();
         }
 
         // var_dump($controllerName);        
+    }
+
+    private function notFound()
+    {
+        $controllerPath = __DIR__ . "/../controllers/Controller404.php";
+        require_once $controllerPath;
+        $controller = new Controller404();
+        $controller->index();
     }
 }
