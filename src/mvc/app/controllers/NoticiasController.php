@@ -6,8 +6,8 @@ class NoticiasController extends Controller
     {
         $this->view('noticias/index');
     }
-    public function falarNome($nome)
+    public function noticia($id_noticia = null)
     {
-        echo "SEU NOME: $nome ";
+        $this->view('noticias/noticia',['id_noticia' => $id_noticia]);
     }
 }
