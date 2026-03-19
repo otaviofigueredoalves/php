@@ -1,0 +1,11 @@
+{
+    "name": "otavio/mvc",
+    "description": "MVC Structure",
+    "authors": [
+        {
+            "name": "otaviodev",
+            "email": "117609558+otaviofigueredoalves@users.noreply.github.com"
+        }
+    ],
+    "require": {}
+}
