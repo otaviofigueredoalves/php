@@ -1,5 +1,6 @@
 <?php
-
+namespace App\Core;
+use Exception;
 abstract class Controller
 {
     protected function view($view, $viewData = [])
