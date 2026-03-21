@@ -11,8 +11,8 @@ class Router
         $controllerName = $parts[0] ?? 'Home'; 
         $controllerName = 'App\Controllers\\'. ucfirst($controllerName).'Controller';
 
-        var_dump($controllerName);
-        die();
+        // var_dump($controllerName);
+        // die();
 
         try{
             if(class_exists($controllerName)){
