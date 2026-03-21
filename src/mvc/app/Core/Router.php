@@ -1,4 +1,7 @@
 <?php
+namespace App\Core;
+use App\Controllers\HttpResponseError;
+use Exception;
 class Router
 {
     public function dispatch($url)
@@ -6,13 +9,13 @@ class Router
         $url = trim($url,'/');
         $parts = $url ? explode('/',$url) : [];
         $controllerName = $parts[0] ?? 'Home'; 
-        $controllerName = ucfirst($controllerName).'Controller';
-        $controllerPath =  __DIR__ . "/../controllers/$controllerName".'.php';
+        $controllerName = 'App\Controllers\\'. ucfirst($controllerName).'Controller';
 
-        // var_dump($controllerPath);
-        // var_dump($controllerName);
+        var_dump($controllerName);
+        die();
+
         try{
-            if(file_exists($controllerPath)){
+            if(class_exists($controllerName)){
                 $method = $parts[1] ?? 'index';
 
                 if($controllerName == 'AdminController'){
@@ -20,8 +23,6 @@ class Router
                     return;
                 }
 
-                
-                require_once $controllerPath;
                 $controller = new $controllerName();
 
                 if(!method_exists($controller,$method)){
@@ -37,15 +38,13 @@ class Router
                 $this->httpError('notFound');
                 return;
             }
-        } catch(Throwable $e){
+        } catch(Exception $e){
             $this->httpError('notServer',$e->getMessage());
         }
     }
 
     private function httpError($error, $error_message = null)
     {
-        $controllerPath = __DIR__ . "/../controllers/HttpResponseError.php";
-        require_once $controllerPath;
         $controller = new HttpResponseError();
         $controller->$error($error_message);
     }
