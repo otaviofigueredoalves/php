@@ -11,8 +11,6 @@ class Router
         $controllerName = $parts[0] ?? 'Home'; 
         $controllerName = 'App\Controllers\\'. ucfirst($controllerName).'Controller';
 
-        // var_dump($controllerName);
-        // die();
 
         try{
             if(class_exists($controllerName)){
@@ -23,6 +21,7 @@ class Router
                     return;
                 }
 
+                // dd($controllerName,$method);
                 $controller = new $controllerName();
 
                 if(!method_exists($controller,$method)){
@@ -33,7 +32,7 @@ class Router
                 $params = array_slice($parts,2);
                 call_user_func_array([$controller,$method],$params);
 
-
+                // dd($params);
             } else {
                 $this->httpError('notFound');
                 return;
