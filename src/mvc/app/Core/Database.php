@@ -6,6 +6,24 @@ use Exception;
 class Database
 {
     private $connection = null;
+    private static $instance = null;
+    private function __construct()
+    {
+        $this->connect();
+    }
+
+    public static function getInstance()
+    {
+        try{
+            if(empty(self::$instance)){
+                self::$instance = new Database();
+            }
+            return self::$instance;
+        } catch (\PDOException $e){
+            throw new Exception("Erro ao pegar a instância");
+        }
+        
+    }
 
     public function connect()
     {
@@ -33,10 +51,6 @@ class Database
 
     public function query($sql, $params = [])
     {
-        if(!$this->connection){
-            $this->connect();
-        }
-
         try {
             $stmt = $this->connection->prepare($sql);
             $stmt->execute($params);
@@ -44,5 +58,30 @@ class Database
         } catch (\PDOException $e){
             throw new \Exception("Erro ao consultar o DB: ". $e->getMessage());
         }
-    } 
+    }
+
+    public function fetch($sql, $params = []):array
+    {
+        $stmt = $this->query($sql,$params);
+        return $stmt->fetch();
+    }
+    public function fetchAll($sql, $params = []):array
+    {
+        $stmt = $this->query($sql,$params);
+        return $stmt->fetchAll();
+    }
+    public function execute($sql, $params = []) : int
+    {
+        $stmt = $this->query($sql,$params);
+        return $stmt->rowCount();
+    }
+    public function lastInsertId() : int
+    {
+        return $this->connection->lastInsertId();
+    }
+    public function rowCount() : int
+    {
+        return $this->connection->rowCount();
+    }
+
 }
