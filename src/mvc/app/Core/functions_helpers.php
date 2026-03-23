@@ -24,3 +24,12 @@ function dd(...$vars){
     echo "</pre>";
     die();
 }
+
+function config($key, $default = NULL){
+    static $config = NULL;
+
+    if(empty($config)){
+        $config = require __DIR__ .'/../config/config.php';
+    }
+    return $config[$key] ?? $default;
+}
