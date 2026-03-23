@@ -24,12 +24,13 @@ class Database
 
     public function connect()
     {
-        $host = 'localhost';
-        $dbname = 'mvc';
-        $username = 'root';
-        $password = 'admin';
-        $charset = 'utf8mb4';
-
+        $configDB = config('database');
+        $host = $configDB['host'];
+        $dbname = $configDB['dbname'];
+        $charset = $configDB['charset'];
+        $username = $configDB['username'];
+        $password = $configDB['password'];
+        
         $dsn = "mysql:host=$host;dbname=$dbname;charset=$charset";
 
         $options = [

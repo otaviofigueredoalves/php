@@ -20,8 +20,9 @@ class HomeController extends Controller
             foreach($data as $nome){
                 $lista_nomes[] = $nome['nome'];
             }
-            
-            dd($lista_nomes);
+
+            $configuration = config('database');
+            dd($configuration);
         } catch (\Exception $e){
             throw new Exception("algum erro aconteceu no HomeController" . $e->getMessage());
         }
