@@ -13,9 +13,16 @@ class HomeController extends Controller
         try{
             $user = new Usuario();
             $user_data = $user->getDataUser();
-            $consulta = $user->testDb();
-            dd($consulta);
-        } catch (\PDOException $e){
+            
+            // $data = $user->createUser('Dante');
+            $data = $user->getAllUsers();
+            $lista_nomes = [];
+            foreach($data as $nome){
+                $lista_nomes[] = $nome['nome'];
+            }
+            
+            dd($lista_nomes);
+        } catch (\Exception $e){
             throw new Exception("algum erro aconteceu no HomeController" . $e->getMessage());
         }
 

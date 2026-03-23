@@ -12,10 +12,16 @@ class Usuario extends Model
         ];
     }
 
-    public function testDb()
+    public function createUser($name)
     {
-        $sql = 'SELECT 1+4 AS teste';
-        $resultado = $this->db->fetch($sql);
-        return $resultado;
+        $sql = "INSERT INTO usuarios (nome) VALUES (:nome)";
+        $params = ['nome' => $name];
+        return $this->db->execute($sql,$params);
+    }
+
+    public function getAllUsers()
+    {
+        $sql = "SELECT * FROM usuarios";
+        return $this->db->fetchAll($sql);
     }
 }
