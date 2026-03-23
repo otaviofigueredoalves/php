@@ -14,14 +14,11 @@ class Database
 
     public static function getInstance()
     {
-        try{
-            if(empty(self::$instance)){
-                self::$instance = new Database();
-            }
-            return self::$instance;
-        } catch (\PDOException $e){
-            throw new Exception("Erro ao pegar a instância");
+        if(empty(self::$instance)){
+            self::$instance = new Database();
         }
+        return self::$instance;
+        
         
     }
 
